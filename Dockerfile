@@ -56,7 +56,7 @@ RUN /etc/init.d/mysql start && \
 		--account-mail=${USER_EMAIL:-'support@'$VIRTUAL_HOST} \
 		--account-pass=${WP_PASS:-'password'}
 RUN /etc/init.d/mysql start && \
-	cd /var/www && \
+	cd /var/www/html && \
 	drupal module:install admin_toolbar --latest && \
 drupal module:install devel --latest
 
