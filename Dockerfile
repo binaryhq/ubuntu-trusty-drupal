@@ -24,7 +24,7 @@ RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 # Install Drupal Console.
-RUN curl http://drupalconsole.com/installer -L -o drupal.phar
+RUN curl https://drupalconsole.com/installer -L -o drupal.phar
 RUN mv drupal.phar /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
 RUN drupal init --override
 
