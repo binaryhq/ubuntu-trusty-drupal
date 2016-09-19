@@ -15,6 +15,8 @@ else
 fi
 drupal check
 cd /var/www/html && \
+	drupal module:download admin_toolbar --latest && \ 
 	drupal module:install admin_toolbar --latest && \
-    drupal module:install devel --latest
+	drupal module:download devel --latest && \ 
+    	drupal module:install devel --latest
 exec supervisord -n
