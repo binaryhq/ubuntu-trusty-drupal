@@ -9,12 +9,12 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
     echo "=> Installing MySQL ..."
     mysql_install_db > /dev/null 2>&1
     echo "=> Done!"  
-    /create_mysql_admin_user.sh
+    sudo /create_mysql_admin_user.sh
 else
     echo "=> Using an existing volume of MySQL"
 fi
 
-RUN /etc/init.d/mysql start && \
+/etc/init.d/mysql start && \
 	cd /var/www/html && \
 	drupal site:install standard \
 		--langcode en \
