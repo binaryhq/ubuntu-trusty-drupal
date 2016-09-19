@@ -73,13 +73,10 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 	echo "Please remember to change the above password as soon as possible!"
 	echo "MySQL user 'root' has no password but only allows local connections"
 	echo "========================================================================"
-	
-	mysqladmin -uroot shutdown
 else
     echo "=> Using an existing volume of MySQL"
 fi
-
-/etc/init.d/mysql start && \
+service mysql reload && \
 	cd /var/www/html && \
 	drupal site:install standard \
 		--langcode en \
@@ -95,8 +92,6 @@ fi
 		--account-name=${WP_USER:-'admin'} \
 		--account-mail=${USER_EMAIL:-'support@'$VIRTUAL_HOST} \
 		--account-pass=${WP_PASS:-'password'}
-		
-		
 drupal check
 cd /var/www/html && \
 	drupal module:download admin_toolbar --latest && \ 
