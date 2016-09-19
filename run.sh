@@ -13,5 +13,7 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 else
     echo "=> Using an existing volume of MySQL"
 fi
-
+cd /var/www/html && \
+	drupal module:install admin_toolbar --latest && \
+    drupal module:install devel --latest
 exec supervisord -n
