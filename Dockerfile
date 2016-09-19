@@ -18,6 +18,10 @@ RUN sed -i -e 's/^bind-address\s*=\s*127.0.0.1/#bind-address = 127.0.0.1/' /etc/
 
 #ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 #ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
+RUN rm -rf /var/lib/mysql/*
+
+# Add MySQL utils
+ADD create_mysql_admin_user.sh /create_mysql_admin_user.sh
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php
