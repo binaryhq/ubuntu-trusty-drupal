@@ -59,10 +59,7 @@ RUN /etc/init.d/mysql start && \
 		--account-name=${WP_USER:-'admin'} \
 		--account-mail=${USER_EMAIL:-'support@'$VIRTUAL_HOST} \
 		--account-pass=${WP_PASS:-'password'}
-RUN /etc/init.d/mysql start && \
-	cd /var/www/html && \
-	drupal module:install admin_toolbar --latest && \
-drupal module:install devel --latest
+
 
 #Environment variables to configure php
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
