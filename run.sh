@@ -76,7 +76,7 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 else
     echo "=> Using an existing volume of MySQL"
 fi
-service mysql reload && \
+service mysql start && \
 	cd /var/www/html && \
 	drupal site:install standard \
 		--langcode en \
