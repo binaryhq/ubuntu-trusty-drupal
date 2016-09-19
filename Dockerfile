@@ -26,7 +26,8 @@ RUN mv composer.phar /usr/local/bin/composer
 # Install Drupal Console.
 RUN curl http://drupalconsole.com/installer -L -o drupal.phar
 RUN mv drupal.phar /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
-RUN drupal init
+RUN drupal init --override
+
 
 # Install Drupal.
 RUN rm -rf /var/www/html
