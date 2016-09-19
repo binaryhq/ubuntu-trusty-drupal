@@ -3,7 +3,8 @@ MAINTAINER Ningappa <ningappa@poweruphosting.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
-RUN apt-get install -y git apache2 php5-cli php5-mysql php5-gd php5-curl php5-xdebug php5-sqlite libapache2-mod-php5 curl mysql-server mysql-client phpmyadmin wget unzip cron supervisor
+RUN apt-get install -y git apache2 php5-cli php5-mysql php5-gd php5-curl  php5-sqlite libapache2-mod-php5 curl mysql-server mysql-client phpmyadmin wget unzip cron supervisor && \
+echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 RUN apt-get clean
 
@@ -16,8 +17,8 @@ RUN chmod 755 /*.sh
 RUN sed -i -e 's/^bind-address\s*=\s*127.0.0.1/#bind-address = 127.0.0.1/' /etc/mysql/my.cnf
 
 
-#ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
-#ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
+ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
+ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
 RUN rm -rf /var/lib/mysql/*
 
 # Add MySQL utils
