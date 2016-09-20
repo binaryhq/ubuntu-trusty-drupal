@@ -73,13 +73,7 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 	echo "Please remember to change the above password as soon as possible!"
 	echo "MySQL user 'root' has no password but only allows local connections"
 	echo "========================================================================"
-	
-	mysqladmin -uroot shutdown
-else
-    echo "=> Using an existing volume of MySQL"
-fi
-exec supervisord -n
-cd /var/www/html && \
+	cd /var/www/html && \
 	drupal site:install standard \
 		--langcode en \
 		--site-name="Drupal 8" \
@@ -100,3 +94,9 @@ cd /var/www/html && \
 	drupal module:download devel --latest && \ 
 	drupal module:install devel --latest
 
+
+	mysqladmin -uroot shutdown
+else
+    echo "=> Using an existing volume of MySQL"
+fi
+exec supervisord -n
