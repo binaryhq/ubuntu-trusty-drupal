@@ -98,4 +98,5 @@ drupal module:install admin_toolbar --latest && \
 drupal module:download devel --latest && \ 
 drupal module:install devel --latest
 
+mysqladmin -uroot shutdown
 exec supervisord -n
