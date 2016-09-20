@@ -4,7 +4,7 @@ VOLUME_HOME="/var/lib/mysql"
 
 sed -ri -e "s/^upload_max_filesize.*/upload_max_filesize = ${PHP_UPLOAD_MAX_FILESIZE}/" \
     -e "s/^post_max_size.*/post_max_size = ${PHP_POST_MAX_SIZE}/" /etc/php5/apache2/php.ini
-if [[ ! -d $VOLUME_HOME/mysql ]]; then
+#if [[ ! -d $VOLUME_HOME/mysql ]]; then
     echo "=> An empty or uninitialized MySQL volume is detected in $VOLUME_HOME"
     echo "=> Installing MySQL ..."
     mysql_install_db > /dev/null 2>&1
@@ -73,6 +73,7 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 	echo "Please remember to change the above password as soon as possible!"
 	echo "MySQL user 'root' has no password but only allows local connections"
 	echo "========================================================================"
+	mysqladmin -uroot shutdown
 	cd /var/www/html && \
 	drupal site:install standard \
 		--langcode en \
@@ -87,16 +88,14 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 		--site-mail=${USER_EMAIL:-'support@'$VIRTUAL_HOST} \
 		--account-name=${WP_USER:-'admin'} \
 		--account-mail=${USER_EMAIL:-'support@'$VIRTUAL_HOST} \
-		--account-pass=${WP_PASS:-'password'}
-	drupal check && \
+		--account-pass=${WP_PASS:-'password'} 
+		
 	drupal module:download admin_toolbar --latest && \ 
 	drupal module:install admin_toolbar --latest && \
 	drupal module:download devel --latest && \ 
 	drupal module:install devel --latest
 
-
-	mysqladmin -uroot shutdown
-else
-    echo "=> Using an existing volume of MySQL"
-fi
+#else
+#    echo "=> Using an existing volume of MySQL"
+#fi
 exec supervisord -n
