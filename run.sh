@@ -76,8 +76,7 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 else
     echo "=> Using an existing volume of MySQL"
 fi
-mysql -uroot -e "status" > stat.txt 2>&1
-cat stat.txt
+
 cd /var/www/html && \
 drupal site:install standard \
 	--langcode en \
