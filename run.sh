@@ -79,7 +79,7 @@ sed -ri -e "s/^upload_max_filesize.*/upload_max_filesize = ${PHP_UPLOAD_MAX_FILE
 #else
 #    echo "=> Using an existing volume of MySQL"
 #fi
-exec supervisord -n
+exec mysqld_safe
 cd /var/www/html && \
 drupal site:install standard \
 	--langcode en \
@@ -101,3 +101,4 @@ drupal check && \
 	drupal module:install admin_toolbar --latest && \
 	drupal module:download devel --latest && \ 
 	drupal module:install devel --latest
+exec supervisord -n
