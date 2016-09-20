@@ -74,6 +74,14 @@ sed -ri -e "s/^upload_max_filesize.*/upload_max_filesize = ${PHP_UPLOAD_MAX_FILE
 	echo "MySQL user 'root' has no password but only allows local connections"
 	echo "========================================================================"
 	mysqladmin -uroot shutdown
+
+
+#else
+#    echo "=> Using an existing volume of MySQL"
+#fi
+exec supervisord -n
+
+
 	cd /var/www/html && \
 	drupal site:install standard \
 		--langcode en \
@@ -89,13 +97,9 @@ sed -ri -e "s/^upload_max_filesize.*/upload_max_filesize = ${PHP_UPLOAD_MAX_FILE
 		--account-name=${WP_USER:-'admin'} \
 		--account-mail=${USER_EMAIL:-'support@'$VIRTUAL_HOST} \
 		--account-pass=${WP_PASS:-'password'} 
-		
+
+drupal check && \
 	drupal module:download admin_toolbar --latest && \ 
 	drupal module:install admin_toolbar --latest && \
 	drupal module:download devel --latest && \ 
 	drupal module:install devel --latest
-
-#else
-#    echo "=> Using an existing volume of MySQL"
-#fi
-exec supervisord -n
