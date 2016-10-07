@@ -34,7 +34,8 @@ echo "WP MAIL -> $USER_EMAIL"
 echo "================================================================ "
 mysql -uroot -e "CREATE DATABASE $DBNAME"
 mysql -uroot -e "CREATE USER '$DBUSER'@'%' IDENTIFIED BY '$DBPASS'"
-mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO '$DBUSER'@'%' WITH GRANT OPTION"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBUSER'@'%' WITH GRANT OPTION"
+
 #replace DOMAINNAMEHERE $VIRTUAL_HOST -- wordpress.sql
 #replace SITETITLEHERE $VIRTUAL_HOST -- wordpress.sql
 #replace USERNAMEHERE $WP_USER -- wordpress.sql
