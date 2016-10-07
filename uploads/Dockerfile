@@ -8,22 +8,22 @@ echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 RUN apt-get clean && \
 	a2enmod rewrite
-ADD uploads/000-default.conf /etc/apache2/sites-available/000-default.conf
+ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
 
-ADD uploads/start-apache2.sh /start-apache2.sh
-ADD uploads/start-mysqld.sh /start-mysqld.sh
-ADD uploads/pbn /usr/share/pbn
-ADD uploads/run.sh /run.sh
+ADD start-apache2.sh /start-apache2.sh
+ADD start-mysqld.sh /start-mysqld.sh
+
+ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 
 RUN sed -i -e 's/^bind-address\s*=\s*127.0.0.1/#bind-address = 127.0.0.1/' /etc/mysql/my.cnf
 
-ADD uploads/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
-ADD uploads/supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
+ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
+ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
 RUN rm -rf /var/lib/mysql/*
 
 # Add MySQL utils
-ADD uploads/create_mysql_admin_user.sh /create_mysql_admin_user.sh
+ADD create_mysql_admin_user.sh /create_mysql_admin_user.sh
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php

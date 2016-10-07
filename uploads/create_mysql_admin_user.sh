@@ -53,14 +53,12 @@ mysql -uroot -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBUSER'@'%' WITH GRANT O
 #if [ -f /mysql-setup.sh ] ; then
 #  . /mysql-setup.sh
 #fi
-
 echo '-----------------------'
 echo "filemanager user =>  ${FILEMANAGERUSER:-'testuser'}"
 echo "filemanager pass => ${FILEMANAGERPASSWORD:-'testpassword'}"
 echo '------------------------'
 replace FILEMANAGERUSER ${FILEMANAGERUSER:-'testuser'} -- /usr/share/pbn/filemanager/config/.htusers.php
 replace FILEMANAGERPASSWORD $(echo -n ${FILEMANAGERPASSWORD:-'testpassword'} | md5sum | awk '{print $1}') -- /usr/share/pbn/filemanager/config/.htusers.php
-
 
 echo "=> Done!"
 
