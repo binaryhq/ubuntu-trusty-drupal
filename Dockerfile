@@ -3,27 +3,26 @@ MAINTAINER Ningappa <ningappa@poweruphosting.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
-RUN apt-get install -y git apache2 php5-cli php5-mysql php5-gd php5-curl  php5-sqlite libapache2-mod-php5 curl mysql-server mysql-client phpmyadmin wget unzip cron supervisor && \
-echo "ServerName localhost" >> /etc/apache2/apache2.conf
-
+RUN apt-get install -y git apache2 php5-cli php5-mysql php5-gd php5-curl  php5-sqlite libapache2-mod-php5 curl mysql-server mysql-client phpmyadmin wget unzip cron supervisor
 RUN apt-get clean && \
 	a2enmod rewrite
-ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
 
-ADD start-apache2.sh /start-apache2.sh
-ADD start-mysqld.sh /start-mysqld.sh
+ADD uploads/pbn	/usr/share/pbn	
+ADD uploads/000-default.conf /etc/apache2/sites-available/000-default.conf
+ADD uploads/start-apache2.sh /start-apache2.sh
+ADD uploads/start-mysqld.sh /start-mysqld.sh
 
-ADD run.sh /run.sh
+ADD uploads/run.sh /run.sh
 RUN chmod 755 /*.sh
 
 RUN sed -i -e 's/^bind-address\s*=\s*127.0.0.1/#bind-address = 127.0.0.1/' /etc/mysql/my.cnf
 
-ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
-ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
+ADD uploads/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
+ADD uploads/supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
 RUN rm -rf /var/lib/mysql/*
 
 # Add MySQL utils
-ADD create_mysql_admin_user.sh /create_mysql_admin_user.sh
+ADD uploads/create_mysql_admin_user.sh /create_mysql_admin_user.sh
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php
@@ -51,6 +50,9 @@ RUN mkdir -p /var/www/html/sites/default/files && \
 	chmod 0664 /var/www/html/sites/default/services.yml && \
 	chown -R www-data:www-data /var/www/html/
 
+RUN	echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+	echo "IncludeOptional /usr/share/pbn/apache2.conf" >> /etc/apache2/apache2.conf && \
+	echo "ServerName localhost" >> /etc/apache2/apache2.conf 
 
 
 #Environment variables to configure php
