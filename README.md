@@ -1,7 +1,7 @@
 # ubuntu-trusty-drupal
 ```
 
-docker build -t ubuntu-joomla https://github.com/ningappa/ubuntu-trusty-drupal.git
+docker build -t ubuntu-drupal https://github.com/ningappa/ubuntu-trusty-drupal.git
 ```
 ```
 
